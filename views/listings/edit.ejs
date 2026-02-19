@@ -1,0 +1,78 @@
+
+
+<% layout("layouts/boilerplate") %>
+
+<body>
+
+  <div class="container mt-5 offset-2">
+    <div class="card shadow-sm p-4" style="max-width: 600px;">
+      <h2 class="mb-4">Edit Listing</h2>
+
+      <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" novalidate class="needs-validation">
+
+        <div class="mb-3 mt-3">
+          <label for="title">Title:</label>
+          <input
+            name="listing[title]"
+            type="text"
+            required
+            class="form-control"
+            value="<%= listing.title %>"
+          >
+          <div class="invalid-feedback">Please enter a valid title.</div><br><br>
+        </div>
+
+        <div class="mb-3">
+          <label for="description">Description:</label>
+          <textarea
+            name="listing[description]"
+            class="form-control"
+            rows="4"
+            required
+          ><%= listing.description %></textarea>
+          <div class="invalid-feedback">Please enter a description.</div><br><br>
+        </div>
+
+        <div class="mb-3">
+          <label for="img">Image URL:</label>
+          <input required
+            name="listing[img]"
+            type="text"
+            class="form-control"
+            value="<%= listing.img %>"
+          >
+          <div class="invalid-feedback">Please enter a valid link.</div><br><br>
+        </div>
+
+        <div class="mb-3">
+          <label for="price">Price:</label>
+          <input required
+            name="listing[price]"
+            type="number"
+            class="form-control"
+            value="<%= listing.price %>"
+          >
+          <div class="invalid-feedback">Please enter a valid price.</div><br><br>
+        </div>
+
+        <div class="mb-3">
+          <label for="country">Country:</label>
+          <input required
+            name="listing[country]"
+            type="text"
+            class="form-control"
+            value="<%= listing.country %>"
+          >
+          <div class="invalid-feedback">Please enter a valid country.</div><br><br>
+        </div>
+
+        <button type="submit" class="btn btn-dark">
+          Update Listing
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+</body>
+

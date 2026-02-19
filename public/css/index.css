@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Plus Jakarta Sans";
+
+}
+.show-img{
+    width: 48rem;
+    height: 25rem;
+    border-radius: 9px;
+}
+.nivasa{
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+.nav-link{
+    color: rgb(0, 0, 0) ;
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+.fa-brands{
+    color: black;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.nav-link:hover{
+    color: blue;
+}
+
+  
+.Footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    height: 8rem;
+}
+.cards-hotels{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 5rem;
+}
+.cards-hotels img{
+    border-radius: 2rem;
+}
+.card{
+    margin-bottom: 7rem;
+    border: none;
+   }
+   .container
+   {
+    width: 70rem;
+
+   }
+   .reviews{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+   }
+   .avg-review{
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   }
+

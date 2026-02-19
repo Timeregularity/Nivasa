@@ -1,0 +1,21 @@
+<% layout("layouts/boilerplate") %>
+<body>
+<div class="cards-hotels">
+    <% let i=0;%>
+ <% for(let list of allListing){ %>
+    <% i++; %>
+  <a href="/listings/<%= list._id %>" style="text-decoration: none;">
+    <div class="card card-<%= i %>" style="width: 22rem;" onclick="">
+     <img src="<%= list.img %>" class="card-img-top" alt="...">
+     <div class="card-body">
+     <h5 class="card-title"><%= list.title %></h5>
+     <p class="card-text">₹<%= list.price %>/night</p>
+   
+  </div>
+</div>
+</a>
+ <%
+} %>
+ 
+</div>
+</body>

@@ -1,0 +1,111 @@
+<% layout("layouts/boilerplate") %>
+
+<body>
+   <h2 style="color: darkgoldenrod;text-decoration: dotted;"></h2> 
+   
+   <div class="col-md-4 col-lg-3">
+      <div class="container">
+      <div class="card" style="width: auto;">
+         <img src="<%= listing.img %>" class="card-img-top show-img" alt="image" >
+         <div class="card-body">
+           <h5 class="card-title"><%= listing.title %></h5>
+           <p class="card-text"><%= listing.description %>.</p>
+           <p class="card-text">₹ <%= listing.price.toLocaleString("en-IN") %>/night</p>
+           <p class="card-text"><%= listing.location %></p>
+           <p class="card-text"><%= listing.country %></p>
+           <div  style="display: flex;flex-direction: row;gap: 10px;"><a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit</a>
+           <form  action="/listings/<%=listing._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-dark"> Delete this Listing</button>
+           </form></div>
+           
+         </div>
+       </div>
+   </div>
+</div>
+<hr>
+<div class="mb-3 mt-1">
+   <h3>Leave a review </h3>
+   <form novalidate class="needs-validation" action="/listings/<%=listing._id%>/reviews" method="post">
+      <div class="mt-2" id="rating">
+         <label for="Rating">Rating:</label>
+         <input class="form-control" name="review[rating]" type="range" min="1" max="5"><br>
+      </div>
+      <div class="mb-2" id="comment">
+         <label for="comment" >Comment:</label>
+         <textarea name="review[comment]" class="form-control" id="comment" rows="5" cols="30"></textarea>
+      </div>
+     <button class="btn btn-outline-dark">Submit</button>
+   </form>
+</div>
+<div >
+   <hr/>
+   <div class="avg-review">
+      <%
+      let total = 0;
+      let length = listing.reviews.length;
+   
+      for(let ratings of listing.reviews){
+         total += ratings.rating;
+      }
+   
+      let avg = length > 0 ? (total / length).toFixed(1) : 0;
+   %>
+   
+   
+   <h1><%= avg %></h1>
+   <span style="color: rgb(255, 242, 0);font-size: 18pt;">
+      
+      
+   
+         <% for (let i = 1; i <= avg; i++) { %>
+            <%= '★' %>
+         <% } %>
+        <% if(avg%1!=0){%>
+           <%='⯪'%>
+        <%}%>
+        <% for (let i = 1; i <= 5-avg; i++) { %>
+         <%= '☆' %>
+      <% } %>
+         
+         <br>
+      
+    
+      
+   </span>
+   <h7>Total Reviews: <%= length %></h7>
+   </div>
+   
+<h3>All Reviews</h3>
+
+      
+      <% for(let ratings of listing.reviews){ %>
+         
+         <div class="card border mb-2 mt-3">
+            <div class="card-body">
+               <b>Rating: </b>
+               <span style="color: rgb(255, 242, 0);font-size: 18pt;">
+                  <% for (let i = 1; i <= 5; i++) { %>
+                     <%= i <= ratings.rating ? '★' : '☆' %>
+                  <% } %>
+               </span>
+               <br>
+      
+               <b>Remarks: </b><%= ratings.comment %><br>
+      
+               <span style="font-size: 10pt;">
+                  <%= ratings.createdAt ? ratings.createdAt.toDateString() : "" %>
+               </span>
+      
+               <form action="/listings/<%= listing._id %>/reviews/<%= ratings._id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-outline-dark btn-sm">Delete</button>
+               </form>
+            </div>
+         </div>
+      <% } %>
+      
+       
+  
+</div>
+
+</div>
+</body>

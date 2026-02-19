@@ -1,0 +1,49 @@
+<% layout("layouts/boilerplate") %>
+
+<body>
+    
+        <div class="container mt-5 offset-2">
+            <div class="card shadow-sm p-4" style="max-width: 600px;">
+              <h2 class="mb-4">Create New Listing</h2>
+              <form action="/listings" method="POST" novalidate class="needs-validation" >  
+            
+                <div class="mb-3 mt-3">
+                    <label for="title" >Title: </label><br>
+                <input name="listing[title]" type="text" class="form-control" required>
+                <div class="invalid-feedback">Please enter a valid title.</div><br><br>
+                </div>
+                <div class="mb-3">
+                    <label for="description" >Description: </label><br>
+                    <textarea name="listing[description]" class="form-control" required></textarea>
+                    <div class="invalid-feedback">Please enter a valid description.</div> <br><br>
+                </div>
+               <div class="mb-3">
+                <label for="img" >Image URL: </label><br>
+                <input name="listing[img]" type="text" class="form-control"  required>
+                <div class="invalid-feedback">Please enter a valid link.</div><br><br>
+               </div>
+                <div class="mb-3">
+                  <label for="price" >Price: </label><br>
+                  <input name="listing[price]" type="number" class="form-control" required>
+                  <div class="invalid-feedback">Please enter a valid price.</div><br><br>
+                </div>
+                <div class="mb-3">
+                    <label for="location" >Location: </label><br>
+                    <input name="listing[location]" type="text" class="form-control" required>
+                    <div class="invalid-feedback">Please enter a valid location.</div><br><br>
+                </div>
+                <div class="mb-3">
+                    <label for="country" >Country: </label><br>
+                    <input name="listing[country]" type="text" class="form-control" required>
+                    <div class="invalid-feedback">Please enter a valid country.</div><br><br>
+                </div>
+                
+                <button type="submit" class="btn btn-dark">Submit</button>
+            </form>
+            </div>
+          </div>
+    
+    
+      
+    
+</body>
