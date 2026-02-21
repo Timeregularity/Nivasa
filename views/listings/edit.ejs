@@ -54,7 +54,16 @@
           >
           <div class="invalid-feedback">Please enter a valid price.</div><br><br>
         </div>
-
+        <div class="mb-3">
+          <label for="location">Location:</label>
+          <input required
+            name="listing[location]"
+            type="text"
+            class="form-control"
+            value="<%= listing.location %>"
+          >
+          <div class="invalid-feedback">Please enter a valid location.</div><br><br>
+        </div>
         <div class="mb-3">
           <label for="country">Country:</label>
           <input required

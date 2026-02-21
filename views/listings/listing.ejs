@@ -1,6 +1,19 @@
 <% layout("layouts/boilerplate") %>
 
 <body>
+    <% if(success && success.length){%>
+        <div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert" >
+            <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+    <%}%>
+    <% if(failure && failure.length){%>
+        <div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert" >
+            <%= failure[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+    <%}%>
+   
     <h3 >All Listings</h3>
     <form method="get" action="/listings/new">
         <button style="background-color: orange;color: aliceblue;border-radius: 5px;">New Listing</button>
