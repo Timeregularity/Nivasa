@@ -1,7 +1,13 @@
 <% layout("layouts/boilerplate") %>
 
 <body>
-   
+   <% if(error && error.length){%>
+      <div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert" >
+          <%= error[0] %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+  <%}%>
+ 
   
   <% if(listing) { %> 
    
@@ -15,17 +21,21 @@
            <p class="card-text">₹ <%= listing.price.toLocaleString("en-IN") %>/night</p>
            <p class="card-text"><%= listing.location %></p>
            <p class="card-text"><%= listing.country %></p>
-           <p class="card-text"><%= listing.owner.username %></p>
-           <div  style="display: flex;flex-direction: row;gap: 10px;"><a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit</a>
+           <p class="card-text">Owned By <%= listing.owner.username %></p> 
+           <% if(currentUser && listing.owner._id.toString()==currentUser._id.toString()){%>
+            <div  style="display: flex;flex-direction: row;gap: 10px;"><a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit</a>
            <form  action="/listings/<%=listing._id %>?_method=DELETE" method="POST">
             <button class="btn btn-dark"> Delete this Listing</button>
            </form></div>
+          <% }%>
+           
            
          </div>
        </div>
    </div>
 </div>
 <hr>
+<% if(currentUser){%>
 <div class="mb-3 mt-1">
    <h3>Leave a review </h3>
    <form novalidate class="needs-validation" action="/listings/<%=listing._id%>/reviews" method="post">
@@ -37,9 +47,14 @@
          <label for="comment" >Comment:</label>
          <textarea name="review[comment]" class="form-control" id="comment" rows="5" cols="30"></textarea>
       </div>
+      <div class="mb-2" id="comment">
+         <label for="author">Author:</label>
+         <input class="form-control" name="review[author]" type="text" value="<% currentUser._id %>"><br>
+      </div>
      <button class="btn btn-outline-dark">Submit</button>
    </form>
 </div>
+<%}%>
 <div >
    <hr/>
    <div class="avg-review">

@@ -1,9 +1,11 @@
+const Listing = require("./DBModels/listing");
+
 module.exports.isLoggedIn=(req,res,next)=>
 {
     if(!req.isAuthenticated())
     {
         req.session.redirectUrl=req.originalUrl;
-        req.flash("failure","You must be logged In");
+        req.flash("error","You must be logged In");
         console.log(req.user);
         return res.redirect("/login");
     }
@@ -18,4 +20,14 @@ module.exports.saveRedirectUrl=(req,res,next)=>
  }
  next();
 }
-//current user middleware
+module.exports.isOwner=async (req,res,next)=>
+{   let {id}=req.params;
+    let list = await Listing.findById(id);
+     if(req.user && !list.owner.equals(req.user._id))
+        {
+          req.flash("error","You are not the owner of this listing!");
+          return res.redirect(`/listings/${id}`);
+        }
+        next();
+}
+

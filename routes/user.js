@@ -28,7 +28,7 @@ router.post("/signUp", wrapAsync(async (req,res)=>
    }
 catch(e)
 {
-    req.flash("failure",e.message);
+    req.flash("error",e.message);
     res.redirect("/signUp");
 }
 }));
@@ -42,6 +42,8 @@ router.post("/login",
       failureRedirect: "/login",
       failureFlash: true
   }),
+
+  
   (req, res) => {
 
       req.flash("success", "Welcome Back to Nivasa");
@@ -50,7 +52,8 @@ router.post("/login",
       delete req.session.redirectUrl;
 
       res.redirect(redirectURL);
-});
+  }
+);
 
 router.get("/logout",(req,res)=>
 {

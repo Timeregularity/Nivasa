@@ -5,6 +5,9 @@ const Listing=require("../DBModels/listing.js");
 const ExpressError = require("../utils/expressErrors.js");
 const {reviewSchema}=require("../validation.js");
 const Reviews=require("../DBModels/review.js");
+const {isLoggedIn}=require("../middlewares.js");
+
+
 
 const validatereviewSchema=(req,res,next)=>
     {
@@ -18,8 +21,8 @@ const validatereviewSchema=(req,res,next)=>
 
 
 
-
-router.post("/",validatereviewSchema,async (req,res)=>
+//create
+router.post("/",isLoggedIn,validatereviewSchema,async (req,res)=>
 {
   let {id}=req.params;
   let listing=await Listing.findById(id);
