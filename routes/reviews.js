@@ -36,7 +36,7 @@ router.post("/",isLoggedIn,validatereviewSchema,async (req,res)=>
 });
 //review delete route
 
-router.delete("/:reviewId",
+router.delete("/:reviewId",isLoggedIn,
   wrapAsync(async(req,res)=>
   {
     let {id,reviewId}=req.params;

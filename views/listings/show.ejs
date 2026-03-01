@@ -47,9 +47,9 @@
          <label for="comment" >Comment:</label>
          <textarea name="review[comment]" class="form-control" id="comment" rows="5" cols="30"></textarea>
       </div>
-      <div class="mb-2" id="comment">
+      <div class="mb-2" id="comment" style="display: none;">
          <label for="author">Author:</label>
-         <input class="form-control" name="review[author]" type="text" value="<% currentUser._id %>"><br>
+         <input  class="form-control" name="review[author]" type="text" value="<%= currentUser._id%>"><br>
       </div>
      <button class="btn btn-outline-dark">Submit</button>
    </form>
