@@ -1,4 +1,6 @@
 const Listing = require("./DBModels/listing");
+const ExpressError = require("./utils/expressErrors.js");
+const {listingSchema, reviewSchema} = require("./validation.js");
 
 module.exports.isLoggedIn=(req,res,next)=>
 {
@@ -30,4 +32,28 @@ module.exports.isOwner=async (req,res,next)=>
         }
         next();
 }
+module.exports.validateSchema=(req,res,next)=>
+  {
+    let {error}=listingSchema.validate(req.body); 
+    if(error)
+    {
+     throw new ExpressError(400,error);
+    }
+    else
+    {
+      next();
+    }
+  }
+module.exports.validateReview=(req,res,next)=>
+  {
+    let {error}=reviewSchema.validate(req.body); 
+    if(error)
+    {
+     throw new ExpressError(400,error);
+    }
+    else
+    {
+      next();
+    }
+  }
 
