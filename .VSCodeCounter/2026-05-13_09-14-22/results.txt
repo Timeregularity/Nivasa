@@ -1,0 +1,76 @@
+Date : 2026-05-13 09:14:22
+Directory : c:\Users\kshit\OneDrive\Desktop\Nivasa
+Total : 34 files,  3482 codes, 26 comments, 320 blanks, all 3828 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          2 |      1,838 |          0 |          2 |      1,840 |
+| JavaScript |         18 |        851 |         25 |        123 |        999 |
+| HTML       |         12 |        500 |          0 |        121 |        621 |
+| PostCSS    |          1 |        159 |          1 |         17 |        177 |
+| Markdown   |          1 |        134 |          0 |         57 |        191 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                 | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                    |         34 |      3,482 |         26 |        320 |      3,828 |
+| . (Files)                                                            |          7 |      2,171 |         10 |        106 |      2,287 |
+| DBModels                                                             |          3 |         93 |          1 |         10 |        104 |
+| controllers                                                          |          3 |        152 |          1 |         11 |        164 |
+| init                                                                 |          2 |        315 |          0 |         35 |        350 |
+| public                                                               |          2 |        172 |          4 |         20 |        196 |
+| public\css                                                           |          1 |        159 |          1 |         17 |        177 |
+| public\js                                                            |          1 |         13 |          3 |          3 |         19 |
+| routes                                                               |          3 |         64 |         10 |         16 |         90 |
+| utils                                                                |          2 |         15 |          0 |          1 |         16 |
+| views                                                                |         12 |        500 |          0 |        121 |        621 |
+| views\includes                                                       |          2 |         66 |          0 |         13 |         79 |
+| views\layouts                                                        |          1 |         24 |          0 |          0 |         24 |
+| views\listings                                                       |          6 |        324 |          0 |         78 |        402 |
+| views\users                                                          |          3 |         86 |          0 |         30 |        116 |
++----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                             | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\DBModels\listing.js           | JavaScript |         55 |          1 |          4 |         60 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\DBModels\review.js            | JavaScript |         27 |          0 |          3 |         30 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\DBModels\user.js              | JavaScript |         11 |          0 |          3 |         14 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\README.md                     | Markdown   |        134 |          0 |         57 |        191 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\app.js                        | JavaScript |         97 |          8 |         34 |        139 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\cloudConfig.js                | JavaScript |         27 |          1 |          5 |         33 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\controllers\listing.js        | JavaScript |         75 |          1 |          6 |         82 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\controllers\review.js         | JavaScript |         21 |          0 |          1 |         22 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\controllers\user.js           | JavaScript |         56 |          0 |          4 |         60 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\init\data.js                  | JavaScript |        293 |          0 |         31 |        324 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\init\index.js                 | JavaScript |         22 |          0 |          4 |         26 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\middlewares.js                | JavaScript |         56 |          0 |          4 |         60 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\package-lock.json             | JSON       |      1,804 |          0 |          1 |      1,805 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\package.json                  | JSON       |         34 |          0 |          1 |         35 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\public\css\index.css          | PostCSS    |        159 |          1 |         17 |        177 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\public\js\script.js           | JavaScript |         13 |          3 |          3 |         19 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\routes\listing.js             | JavaScript |         35 |          8 |         11 |         54 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\routes\reviews.js             | JavaScript |         12 |          2 |          1 |         15 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\routes\user.js                | JavaScript |         17 |          0 |          4 |         21 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\utils\expressErrors.js        | JavaScript |          8 |          0 |          1 |          9 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\utils\wrapAsync.js            | JavaScript |          7 |          0 |          0 |          7 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\validation.js                 | JavaScript |         19 |          1 |          4 |         24 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\includes\footer.ejs     | HTML       |         17 |          0 |          1 |         18 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\includes\navBar.ejs     | HTML       |         49 |          0 |         12 |         61 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\layouts\boilerplate.ejs | HTML       |         24 |          0 |          0 |         24 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\listings\edit.ejs       | HTML       |         91 |          0 |         22 |        113 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\listings\error.ejs      | HTML       |          8 |          0 |          1 |          9 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\listings\index.ejs      | HTML       |         48 |          0 |          4 |         52 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\listings\listing.ejs    | HTML       |         24 |          0 |          8 |         32 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\listings\new.ejs        | HTML       |         53 |          0 |         18 |         71 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\listings\show.ejs       | HTML       |        100 |          0 |         25 |        125 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\users\login.ejs         | HTML       |         25 |          0 |          6 |         31 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\users\profile.ejs       | HTML       |         29 |          0 |         16 |         45 |
+| c:\Users\kshit\OneDrive\Desktop\Nivasa\views\users\signUp.ejs        | HTML       |         32 |          0 |          8 |         40 |
+| Total                                                                |            |      3,482 |         26 |        320 |      3,828 |
++----------------------------------------------------------------------+------------+------------+------------+------------+------------+

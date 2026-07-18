@@ -15,7 +15,6 @@ const upload = multer({ storage });
 
 
 
-
 router.get("/", wrapAsync(listingControllers.index));
 
 router.get("/new", isLoggedIn, listingControllers.renderNewListing);

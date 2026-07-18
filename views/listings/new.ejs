@@ -9,14 +9,10 @@
             
                 <div class="mb-3 mt-3">
                     <label for="title" >Title: </label><br>
-                <input name="listing[title]" type="text" class="form-control" required>
+                    <input id="title" name="listing[title]" type="text" class="form-control" required>
                 <div class="invalid-feedback">Please enter a valid title.</div><br><br>
                 </div>
-                <div class="mb-3">
-                    <label for="description" >Description: </label><br>
-                    <textarea name="listing[description]" class="form-control" required></textarea>
-                    <div class="invalid-feedback">Please enter a valid description.</div> <br><br>
-                </div>
+               
                <div class="mb-3">
                 <label for="img" >Upload Listing Image: </label><br>
                 <input name="listing[img]" type="file" class="form-control"  required>
@@ -24,18 +20,18 @@
                </div>
                 <div class="mb-3">
                   <label for="price" >Price: </label><br>
-                  <input name="listing[price]" type="number" class="form-control" required>
+                  <input id="price" name="listing[price]" type="number" class="form-control" required>
                   <div class="invalid-feedback">Please enter a valid price.</div><br><br>
                 </div>
                 <div class="mb-3">
                     <label for="location" >Location: </label><br>
-                    <input name="listing[location]" type="text" class="form-control" required>
+                    <input id="location" name="listing[location]" type="text" class="form-control" required>
                     <div class="invalid-feedback">Please enter a valid location.</div><br><br>
                 </div>
                 <div class="mb-3">
                     <label for="category" class="form-label">Category</label>
                   
-                    <select name="listing[category]" class="form-select" required>
+                    <select id="category" name="listing[category]" class="form-select" required>
                   
                       <option value="Trending">Trending</option>
                   
@@ -55,16 +51,109 @@
                   </div>
                 <div class="mb-3">
                     <label for="country" >Country: </label><br>
-                    <input name="listing[country]" type="text" class="form-control" required>
+                    <input id="country" name="listing[country]" type="text" class="form-control" required>
                     <div class="invalid-feedback">Please enter a valid country.</div><br><br>
                 </div>
+                <div class="mb-3">
+
+                  <div class="d-flex justify-content-between align-items-center">
+              
+                      <label for="description">Description</label>
+              
+                      <button
+                          type="button"
+                          id="generateDescription"
+                          class="btn btn-outline-dark btn-sm">
+              
+                          ✨ Generate with AI
+              
+                      </button>
+              
+                  </div>
+              
+                  <textarea
+                      id="description"
+                      name="listing[description]"
+                      class="form-control mt-2"
+                      rows="6"
+                      required></textarea>
+              
+                  <div class="invalid-feedback">
+                      Please enter a valid description.
+                  </div>
+              
+                  <div
+                      id="loading"
+                      class="text-center mt-3"
+                      style="display:none;">
+              
+                      <div class="spinner-border spinner-border-sm"></div>
+              
+                      <p class="mt-2">Generating AI description...</p>
+              
+                  </div>
+              
+              </div>
                 
                 <button type="submit" class="btn btn-dark">Submit</button>
             </form>
             </div>
           </div>
     
-    
+          <script>
+
+            const btn = document.getElementById("generateDescription");
+            
+            btn.addEventListener("click", async () => {
+            
+                const title = document.getElementById("title").value;
+                const location = document.getElementById("location").value;
+                const country = document.getElementById("country").value;
+                const category = document.getElementById("category").value;
+                const price = document.getElementById("price").value;
+            
+                if (!title || !location || !country || !price) {
+                    alert("Please fill Title, Location, Country and Price first.");
+                    return;
+                }
+            
+                document.getElementById("loading").style.display = "block";
+            
+                try {
+            
+                    const response = await fetch("/ai/generate-description", {
+            
+                        method: "POST",
+            
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+            
+                        body: JSON.stringify({
+                            title,
+                            location,
+                            country,
+                            category,
+                            price
+                        })
+            
+                    });
+            
+                    const data = await response.json();
+            
+                    document.getElementById("description").value = data.description;
+            
+                } catch (err) {
+            
+                    alert("Failed to generate description.");
+            
+                }
+            
+                document.getElementById("loading").style.display = "none";
+            
+            });
+            
+            </script>  
       
     
 </body>

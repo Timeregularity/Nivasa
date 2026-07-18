@@ -1,6 +1,7 @@
 const express=require("express");
 const app=express();
 require("dotenv").config();
+console.log("Mongo URL:", process.env.ATLASDB_URL);
 const mongoose= require("mongoose");
 const Listing=require("./DBModels/listing.js");
 const path=require("path");
@@ -17,25 +18,24 @@ const flash=require("connect-flash");
 const LocalStrategy=require("passport-local");
 const User=require("./DBModels/user.js");
 const passport=require("passport");
+const aiRouter = require("./routes/ai");
+app.use(express.json());
 
 
-
-
-
+const Mongo_URL = process.env.ATLASDB_URL;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
+app.use("/ai", aiRouter);
+app.get('/api/ping', (req, res) => {
+    
+  res.json({ status: "ok" });
+});
 
 
-const Mongo_URL=process.env.ATLASDB_URL;
-async function main() {
-  await mongoose.connect(Mongo_URL);
-  console.log("Database Connected");
-  }
-  main();
   const store=MongoStore.create({
     mongoUrl: Mongo_URL,
     
@@ -57,6 +57,8 @@ async function main() {
       httpOnly:true
     }
   };
+  
+  
 
    
   app.use(session(sessionOptions));
@@ -81,7 +83,8 @@ async function main() {
     next();
   });
 
- 
+  
+  
   
  app.get("/demouser",async (req,res)=>
 {
@@ -116,6 +119,7 @@ app.use((req,res,next)=>{
 
 });
 
+
 app.use((err,req,res,next)=>{
   // log full error for diagnostics
   console.error(err);
@@ -124,8 +128,22 @@ app.use((err,req,res,next)=>{
   res.status(statusCode).render("listings/error.ejs",{message});
 });
 
-app.listen(1000,(req,res)=>
-{
-    console.log("Server is listening at port 1000");
-});
+
+
+async function startServer() {
+    try {
+        await mongoose.connect(Mongo_URL);
+        console.log("✅ Database Connected");
+
+        app.listen(1000, () => {
+            console.log("✅ Server listening on port 1000");
+        });
+
+    } catch (err) {
+        console.error("MongoDB Connection Error:");
+        console.error(err);
+    }
+}
+
+startServer();
 
