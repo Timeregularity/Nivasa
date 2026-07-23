@@ -92,6 +92,11 @@ a:hover { color: var(--blue-hover); }
 .reviews-list .card { border-radius: .85rem; }
 .preview_img img { max-width: 100%; border-radius: .75rem; border: 1px solid var(--border); }
 .alert { border: 0; }
+.ai-tools { padding: 1.4rem; background: rgba(19,43,72,.52); border: 1px solid var(--border); border-radius: 1rem; }
+.ai-output { white-space: pre-line; margin-top: 1rem; color: var(--muted); }
+.ai-output p { margin-bottom: .7rem; }
+.ai-similar-list { display: grid; gap: .65rem; margin-top: 1rem; }
+.ai-similar-card { padding: .8rem 1rem; border: 1px solid var(--border); border-radius: .65rem; background: rgba(6,16,29,.35); color: #a8c9ff; }
 
 @media (max-width: 600px) { .cards-hotels { grid-template-columns: 1fr; } .log { flex-direction: column; gap: .5rem; } .filters { gap: .5rem; } .site-content { padding-top: .5rem; } .browse-heading { padding-top: 1.5rem; } .show-card .card-body { padding: 1.25rem; } }
 @media (max-width:768px) { .container-fluid { display:flex; align-items:center; } .profile { margin-left:auto; margin-right:.5rem; } }

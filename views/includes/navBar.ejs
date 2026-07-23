@@ -13,19 +13,29 @@
              
               
             </ul>
-            <form class="d-flex ms-auto nav-search" role="search" action="/listings/search" method="GET">
-              <input 
-                class="form-control me-2" 
-                type="search" 
-                name="country"
-                placeholder="Search By Location" 
-                aria-label="Search"
+            <form class="d-flex ms-auto nav-search" id="aiSearchForm">
+    
+              <input
+                  class="form-control me-2"
+                  type="search"
+                  list="aiSearchSuggestions"
+                  id="aiQueryInput"
+                  placeholder="Search anything... e.g. Luxury villa in Goa under ₹5000 with pool"
+
+                  required
               />
-            
-              <button class="btn btn-primary" type="submit">
+              <datalist id="aiSearchSuggestions">
+                <option value="Beach stays in Goa under 5000"></option>
+                <option value="Camping stays in Manali"></option>
+                <option value="Family-friendly hill stay under 6000"></option>
+                <option value="Rooms in Delhi under 3000"></option>
+              </datalist>
+          
+              <button class="btn btn-primary" id="aiQuery" type="submit">
                 Search
               </button>
-            </form>
+          
+          </form>
              <div class="user-log ms-auto">
               <div class="logoutin">
                 <ul class="log">

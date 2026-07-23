@@ -7,6 +7,7 @@ const ExpressError = require("../utils/expressErrors.js");
 const flash=require("connect-flash");
 const {isLoggedIn,isOwner,validateSchema}=require("../middlewares.js");
 const listingControllers=require("../controllers/listing.js");
+const { showSearchResults } = require("../controllers/nlpSearch.js");
 // pull just the storage object from cloud configuration
 const { storage } = require("../cloudConfig.js");
 const multer = require("multer");
@@ -21,6 +22,9 @@ router.get("/new", isLoggedIn, listingControllers.renderNewListing);
 
 // search route
 router.get("/search", listingControllers.searchByCountry);
+
+// AI converts a natural-language search into these safe query parameters.
+router.get("/nlp-search", wrapAsync(showSearchResults));
 
 // category filter
 router.get("/category/:category", listingControllers.filterByCategory);

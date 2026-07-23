@@ -5,6 +5,24 @@
   <h1>Find a place you’ll love</h1>
   <p>Explore memorable homes, scenic escapes, and comfortable stays.</p>
 </section>
+<section class="ai-tools mb-4" id="tripPlanner">
+  <div>
+    <p class="eyebrow">AI TRIP PLANNER</p>
+    <h3>Plan your stay</h3>
+    <p class="text-muted">Tell us your destination, days, group size, and total budget.</p>
+  </div>
+  <form id="tripPlannerForm" class="row g-2">
+    <div class="col-md-4"><input class="form-control" name="destination" placeholder="Destination" required></div>
+    <div class="col-md-2"><input class="form-control" name="days" type="number" min="1" max="30" placeholder="Days" required></div>
+    <div class="col-md-2"><input class="form-control" name="travelers" type="number" min="1" max="20" placeholder="Guests" required></div>
+    <div class="col-md-2"><input class="form-control" name="budget" type="number" min="500" placeholder="Budget INR" required></div>
+    <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Plan with AI</button></div>
+  </form>
+  <div id="tripPlanOutput" class="ai-output" aria-live="polite"></div>
+</section>
+<span>
+
+</span>
 <div class="filters mt-2">
   <div class="filter">
    <a href="/listings/category/Trending"><i class="fa-solid fa-fire "></i> <br>

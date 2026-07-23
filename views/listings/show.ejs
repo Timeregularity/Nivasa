@@ -35,6 +35,18 @@
       </div>
    
 
+      <section class="ai-tools mb-4" data-listing-id="<%= listing._id %>">
+         <div>
+            <p class="eyebrow">AI TRAVEL TOOLS</p>
+            <h3>Make a faster booking decision</h3>
+            <p class="text-muted mb-3">Get a review summary or discover stays with a similar feel.</p>
+            <button type="button" class="btn btn-outline-dark btn-sm" id="summarizeReviews">Summarize reviews</button>
+            <button type="button" class="btn btn-outline-dark btn-sm" id="findSimilarListings">Find similar stays</button>
+         </div>
+         <div id="aiReviewSummary" class="ai-output" aria-live="polite"></div>
+         <div id="similarListings" class="ai-similar-list"></div>
+      </section>
+
       <hr>
 
       <% if(currentUser){ %>

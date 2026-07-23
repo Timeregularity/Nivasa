@@ -1,7 +1,7 @@
 const Listing=require("../DBModels/listing");
 module.exports.index =async (req,res)=>{
     const allListing = await Listing.find({});
-    res.render("listings/listing",{allListing});
+    res.render("listings/index",{allListing});
  }
 module.exports.createNewListing=async (req,res)=>{
       const newListing = new Listing(req.body.listing);
