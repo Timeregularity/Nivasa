@@ -25,6 +25,30 @@ function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function parseJsonResponse(text) {
+  const json = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+  return JSON.parse(json);
+}
+
+async function normalizeDestination(destination) {
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: `Validate this property-search destination: "${destination}".
+Return JSON only with exactly these fields:
+{"status":"valid|corrected|invalid","normalizedDestination":"","message":""}
+Rules:
+- valid: recognizable city, region, state, or country. Keep a clean standard name.
+- corrected: an obvious typo or formatting error. Use the corrected standard name and briefly state the correction.
+- invalid: not a geographic destination, random text, or too ambiguous to search. Explain what the user should enter.
+- Never invent a destination. Do not use markdown or extra keys.`,
+  });
+  const result = parseJsonResponse(response.text || "");
+  if (!["valid", "corrected", "invalid"].includes(result.status) || typeof result.normalizedDestination !== "string") {
+    throw new ExpressError(502, "AI could not validate the destination. Please try again.");
+  }
+  return result;
+}
+
 exports.getSimilarListings = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -58,14 +82,19 @@ exports.summarizeReviews = async (req, res, next) => {
 
 exports.createTripPlan = async (req, res, next) => {
   try {
-    const destination = requiredText(req.body.destination, "Destination");
+    const requestedDestination = requiredText(req.body.destination, "Destination");
     const days = safeNumber(req.body.days, "Days", { min: 1, max: 30 });
     const travelers = safeNumber(req.body.travelers, "Travelers", { min: 1, max: 20 });
     const budget = safeNumber(req.body.budget, "Budget", { min: 500, max: 10000000 });
+    const destinationCheck = await normalizeDestination(requestedDestination);
+    if (destinationCheck.status === "invalid") {
+      throw new ExpressError(400, destinationCheck.message || "Please enter a valid city, region, or country.");
+    }
+    const destination = destinationCheck.normalizedDestination.trim();
     const nightlyBudget = Math.floor(budget / days);
     const stays = await Listing.find({ $or: [{ location: { $regex: escapeRegex(destination), $options: "i" } }, { country: { $regex: escapeRegex(destination), $options: "i" } }], price: { $lte: nightlyBudget } }).limit(5);
     const stayData = stays.map((stay) => ({ title: stay.title, price: stay.price, location: stay.location, category: stay.category }));
     const plan = await generateText(`Create a concise ${days}-day travel outline for ${travelers} traveler(s) visiting ${destination} with a total budget of ₹${budget}. Suggest sensible activity types without inventing exact opening hours, bookings, or prices. Keep the answer under 180 words and do not use markdown. Available StayNest options within roughly ₹${nightlyBudget} per night: ${JSON.stringify(stayData)}`);
-    res.json({ success: true, plan, stays: stays.map((stay) => ({ id: stay._id, title: stay.title, price: stay.price })) });
+    res.json({ success: true, plan, destination, destinationMessage: destinationCheck.status === "corrected" ? destinationCheck.message : null, stays: stays.map((stay) => ({ id: stay._id, title: stay.title, price: stay.price })) });
   } catch (error) { next(error); }
 };

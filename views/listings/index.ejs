@@ -1,74 +1,14 @@
 <% layout("layouts/boilerplate") %>
-<body>
-<section class="browse-heading">
-  <p class="eyebrow">CURATED STAYS</p>
-  <h1>Find a place you’ll love</h1>
-  <p>Explore memorable homes, scenic escapes, and comfortable stays.</p>
+<section class="listing-hero container">
+  <div class="hero-copy-block"><p class="eyebrow">STAYNEST / FIND YOUR VIBE</p><h1>Find a stay that<br><span>matches your vibe.</span></h1><p class="hero-intro">Search naturally, explore unique places, and plan smarter with StayNest.</p><a class="hero-assistant-link" href="/assistant"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> Meet your AI travel copilot <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>
+  <div class="hero-orbit" aria-hidden="true"><span></span><i class="fa-solid fa-location-arrow"></i></div>
 </section>
-<section class="ai-tools mb-4" id="tripPlanner">
-  <div>
-    <p class="eyebrow">AI TRIP PLANNER</p>
-    <h3>Plan your stay</h3>
-    <p class="text-muted">Tell us your destination, days, group size, and total budget.</p>
-  </div>
-  <form id="tripPlannerForm" class="row g-2">
-    <div class="col-md-4"><input class="form-control" name="destination" placeholder="Destination" required></div>
-    <div class="col-md-2"><input class="form-control" name="days" type="number" min="1" max="30" placeholder="Days" required></div>
-    <div class="col-md-2"><input class="form-control" name="travelers" type="number" min="1" max="20" placeholder="Guests" required></div>
-    <div class="col-md-2"><input class="form-control" name="budget" type="number" min="500" placeholder="Budget INR" required></div>
-    <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Plan with AI</button></div>
+<section class="container discovery-searches" aria-label="Search stays">
+  <form class="nlp-search-panel" data-ai-search action="/ai/nlp-search" method="post">
+    <div class="search-panel-icon"><i class="fa-solid fa-sparkles" aria-hidden="true"></i></div><div><label for="indexAiQuery">AI PROPERTY SEARCH</label><input id="indexAiQuery" name="query" type="search" placeholder="Luxury villa in Goa under ₹5,000 with a pool" required autocomplete="off"><small>Try a mood, budget, destination, or group size.</small></div><button class="btn btn-ai" type="submit">Ask StayNest AI <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></button><p class="ai-search-status visually-hidden" aria-live="polite"></p>
   </form>
-  <div id="tripPlanOutput" class="ai-output" aria-live="polite"></div>
+  <form class="availability-search" action="/listings/search" method="get" novalidate>
+    <div class="destination-control" data-city-autocomplete><label for="exploreLocation">OR SEARCH BY CITY</label><div class="destination-input"><i class="fa-solid fa-location-arrow" aria-hidden="true"></i><input id="exploreLocation" name="country" type="text" placeholder="Enter a city or country" required autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="city-suggestion-list" aria-activedescendant=""><span class="search-loader d-none" aria-hidden="true"></span></div><ul id="city-suggestion-list" class="city-suggestions" role="listbox" aria-label="City suggestions" hidden></ul><p class="search-status visually-hidden" aria-live="polite"></p></div><button class="btn btn-primary" type="submit">Search location <i class="fa-solid fa-arrow-right"></i></button>
+  </form>
 </section>
-<span>
-
-</span>
-<div class="filters mt-2">
-  <div class="filter">
-   <a href="/listings/category/Trending"><i class="fa-solid fa-fire "></i> <br>
-    Trending</a>
-  </div>
-  <div class="filter">
-    <a href="/listings/category/Hills"><i class="fa-solid fa-mountain "></i><br>
-      Hills</a>
-  </div>
-  <div class="filter">
-    <a href="/listings/category/Snow"><i class="fa-solid fa-snowflake "></i><br>
-      Snow</a>
-  </div>
-  <div class="filter">
-    <a href="/listings/category/Iconic Cities"><i class="fa-solid fa-mountain-city "></i><br>
-      Iconic Cities</a>
-  </div>
-  <div class="filter">
-    <a href="/listings/category/Rooms"><i class="fa-solid fa-bed "></i><br>
-      Rooms</a>
-  </div>
-  <div class="filter">
-   <a href="/listings/category/Coastal"><i class="fa-solid fa-umbrella-beach "></i><br>
-    Coastal</a>
-  </div>
-  
- <div class="filter"><a href="/listings/category/Camping">
-  <i class="fa-solid fa-campground "></i><br>Camping
- </a></div>
-</div> 
-<div class="cards-hotels">
-    <% let i=0;%>
- <% for(let list of allListing){ %>
-    <% i++; %>
-  <a href="/listings/<%= list._id %>" style="text-decoration: none;">
-    <div class="card card-<%= i %>">
-     <img src="<%= list.img.url%>" class="card-img-top" alt="...">
-     <div class="card-body">
-     <h5 class="card-title"><%= list.title %></h5>
-     <p class="card-text">₹<%= list.price %>/night</p>
-   
-  </div>
-</div>
-</a>
- <%
-} %>
- 
-</div>
-</body>
+<section class="container listing-content"><div class="listing-topline"><p><span class="result-count"><%= allListing.length %></span> places in the collection</p><div class="filters" aria-label="Listing categories"><a href="/listings">All</a><a href="/listings/category/Trending">Trending</a><a href="/listings/category/Hills">Hills</a><a href="/listings/category/Coastal">Coastal</a><a href="/listings/category/Camping">Camping</a><a href="/listings/category/Rooms">Rooms</a></div></div><% if(allListing.length){ %><div class="stay-grid"><% allListing.forEach((list) => { %><article class="stay-card"><a class="stay-image" href="/listings/<%= list._id %>"><img src="<%= (list.img && list.img.url) || 'https://via.placeholder.com/900x700?text=StayNest' %>" alt="<%= list.title %>"><span class="image-index"><%= String(allListing.indexOf(list) + 1).padStart(2, '0') %></span></a><div class="stay-details"><span class="stay-category"><%= list.category %></span><h2><a href="/listings/<%= list._id %>"><%= list.title %></a></h2><p class="stay-location"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <%= list.location %><% if(list.country){ %>, <%= list.country %><% } %></p><div class="stay-footer"><span>From <b>₹<%= Number(list.price).toLocaleString('en-IN') %></b> / night</span><a href="/listings/<%= list._id %>" aria-label="View <%= list.title %>"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div></article><% }) %></div><% } else { %><div class="empty-state"><i class="fa-solid fa-compass"></i><h2>No stays found</h2><p>Try another city, region, or category.</p><a class="btn btn-primary" href="/listings">View all stays</a></div><% } %></section>

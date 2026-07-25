@@ -22,9 +22,15 @@ const reviewSchema=new Schema(
     author:{
         type:Schema.Types.ObjectId,
         ref:"User"
-       }
+       },
+    booking: {
+        type: Schema.Types.ObjectId,
+        ref: "Booking",
+        default: null
+    }
     
     }
 );
+reviewSchema.index({ booking: 1 }, { unique: true, sparse: true });
 const review=mongoose.model("review",reviewSchema);
 module.exports=review;

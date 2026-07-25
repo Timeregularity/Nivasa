@@ -1,6 +1,6 @@
 const Listing = require("./DBModels/listing");
 const ExpressError = require("./utils/expressErrors.js");
-const {listingSchema, reviewSchema} = require("./validation.js");
+const {listingSchema, reviewSchema, bookingSchema, blockedDateSchema} = require("./validation.js");
 
 module.exports.isLoggedIn=(req,res,next)=>
 {
@@ -32,6 +32,13 @@ module.exports.isOwner=async (req,res,next)=>
         }
         next();
 }
+module.exports.isOwnerAccount = (req, res, next) => {
+  if (req.user?.role !== "owner") {
+    req.flash("error", "Only owner accounts can create and manage listings.");
+    return res.redirect("/listings");
+  }
+  next();
+}
 module.exports.validateSchema=(req,res,next)=>
   {
     let {error}=listingSchema.validate(req.body); 
@@ -54,6 +61,16 @@ module.exports.validateReview=(req,res,next)=>
     else
     {
       next();
-    }
   }
+  }
+module.exports.validateBooking = (req, res, next) => {
+  const { error } = bookingSchema.validate(req.body);
+  if (error) throw new ExpressError(400, error.details[0].message);
+  next();
+};
+module.exports.validateBlockedDate = (req, res, next) => {
+  const { error } = blockedDateSchema.validate(req.body);
+  if (error) throw new ExpressError(400, error.details[0].message);
+  next();
+};
 

@@ -19,6 +19,7 @@ const LocalStrategy=require("passport-local");
 const User=require("./DBModels/user.js");
 const passport=require("passport");
 const aiRouter = require("./routes/ai");
+const bookingRouter = require("./routes/booking");
 app.use(express.json());
 
 
@@ -33,6 +34,20 @@ app.use("/ai", aiRouter);
 app.get('/api/ping', (req, res) => {
     
   res.json({ status: "ok" });
+});
+
+app.get('/api/locations/suggestions', async (req, res) => {
+  const query = String(req.query.query || '').trim();
+  if (query.length < 2) return res.json([]);
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const expression = new RegExp(escaped, 'i');
+  const listings = await Listing.find({ $or: [{ location: expression }, { country: expression }] })
+    .select('location country').limit(30).lean();
+  const uniqueLocations = [...new Map(listings.filter((item) => item.location).map((item) => [
+    `${item.location}|${item.country || ''}`.toLowerCase(),
+    { id: item._id.toString(), city: item.location, region: '', country: item.country || '' }
+  ])).values()].slice(0, 6);
+  res.json(uniqueLocations);
 });
 
 
@@ -75,12 +90,24 @@ app.get('/api/ping', (req, res) => {
   passport.deserializeUser(User.deserializeUser());
   
  
-  app.use((req,res,next)=>
-  {
-    res.locals.success=req.flash("success") || [];
-    res.locals.error=req.flash("error") || [];
-    res.locals.currentUser = req.user;
-    next();
+  // Backward-compatible role migration: users who created listings before
+  // roles existed become owners the next time they use the application.
+  app.use(async (req, res, next) => {
+    try {
+      if (req.user && req.user.role !== "owner") {
+        const ownsListing = await Listing.exists({ owner: req.user._id });
+        if (ownsListing) {
+          req.user.role = "owner";
+          await req.user.save();
+        }
+      }
+      res.locals.success = req.flash("success") || [];
+      res.locals.error = req.flash("error") || [];
+      res.locals.currentUser = req.user;
+      next();
+    } catch (error) {
+      next(error);
+    }
   });
 
   
@@ -104,6 +131,7 @@ app.get('/api/ping', (req, res) => {
  
  //router review
  app.use("/listings/:id/reviews",reviewRouter);
+ app.use("/bookings", bookingRouter);
  //user router
  app.use("/",userRouter);
  //current user
@@ -112,9 +140,13 @@ app.get('/api/ping', (req, res) => {
    const allListing = await Listing.find({});
    res.render("listings/index",{allListing});
  });
+
+// Dedicated companion surface; it reuses the existing secure AI endpoints.
+app.get("/assistant", (req, res) => res.render("assistant"));
  
 
 app.use((req,res,next)=>{
+  console.warn(`404: ${req.method} ${req.originalUrl}`);
   next(new ExpressError(404,"Page Not Found!"));
 
 });

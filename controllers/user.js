@@ -5,8 +5,8 @@ module.exports.renderSignUp=(req,res)=>
     };
 module.exports.Login=async (req,res,next)=>
 {try{
-    let {username,password,email}=req.body;
-    const newUser=new User({username,email});
+    let {username,password,email,role}=req.body;
+    const newUser=new User({username,email,role: role === "owner" ? "owner" : "customer"});
     const registeredUser=await User.register(newUser,password);
     req.login(registeredUser,(err)=>
     {

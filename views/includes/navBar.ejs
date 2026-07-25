@@ -1,71 +1,23 @@
-<nav class="navbar navbar-expand-md border-bottom">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/"><img src="/Resource/logo.png" class="brand-logo" alt="StayNest logo"><span class="p-2 nivasa">StayNest</span></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ">
-             
-              <li class="nav-item">
-                <a class="nav-link" href="/listings">Explore</a>
-              </li>
-             
-              
-            </ul>
-            <form class="d-flex ms-auto nav-search" id="aiSearchForm">
-    
-              <input
-                  class="form-control me-2"
-                  type="search"
-                  list="aiSearchSuggestions"
-                  id="aiQueryInput"
-                  placeholder="Search anything... e.g. Luxury villa in Goa under ₹5000 with pool"
-
-                  required
-              />
-              <datalist id="aiSearchSuggestions">
-                <option value="Beach stays in Goa under 5000"></option>
-                <option value="Camping stays in Manali"></option>
-                <option value="Family-friendly hill stay under 6000"></option>
-                <option value="Rooms in Delhi under 3000"></option>
-              </datalist>
-          
-              <button class="btn btn-primary" id="aiQuery" type="submit">
-                Search
-              </button>
-          
-          </form>
-             <div class="user-log ms-auto">
-              <div class="logoutin">
-                <ul class="log">
-                  <li class="nav-item">
-                    <a class="nav-link" href="/listings/new">Add New Listing</a>
-                  </li>
-                  <% if(!currentUser){%>
-                    <li><a href="/login"><b>Login</b></a></li>
-                    <li><a href="/signup"><b>Signup</b></a></li>
-                  <%}else {%>
-                   <li><a href="/logout">LogOut</a></li>
-                  <%}%>
-                  
-                </ul>
-              </div>
-              
-              
-             </div>
-             
-             
-         
-            
-          </div>
-          <div class="profile">
-            <a href="/profile">
-              <div >
-                <i class="fa-regular fa-user fa-2x"></i>
-              </div>
-            </a>
-          </div>
-        </div>
-      </nav>
-    
+<nav class="navbar navbar-expand-md site-nav">
+  <div class="container">
+    <a class="navbar-brand" href="/" aria-label="StayNest home"><span class="brand-mark">SN</span><span>StayNest</span></a>
+    <div class="nav-utilities order-md-3">
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to light mode" title="Switch theme"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+      <% if(currentUser){ %><a class="profile-link" href="/profile" aria-label="Open your profile"><span><%= currentUser.username.charAt(0).toUpperCase() %></span></a><% } %>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="collapse navbar-collapse order-md-2" id="navbarNav">
+      <ul class="navbar-nav ms-md-auto align-items-md-center">
+        <li class="nav-item"><a class="nav-link" href="/listings">Browse stays</a></li>
+        <li class="nav-item"><a class="nav-link nav-ai-link" href="/assistant"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> AI Assistant</a></li>
+        <% if(currentUser){ %><li class="nav-item"><a class="nav-link" href="/bookings/dashboard">Dashboard</a></li><% if(currentUser.role === 'owner'){ %><li class="nav-item"><a class="nav-link" href="/listings/new">Add a listing</a></li><% } %><li class="nav-item"><a class="nav-link" href="/logout">Log out</a></li><% } else { %><li class="nav-item"><a class="nav-link" href="/login">Log in</a></li><li class="nav-item"><a class="nav-link nav-join" href="/signUp">Create account</a></li><% } %>
+      </ul>
+      <form class="nlp-search" data-ai-search action="/ai/nlp-search" method="post">
+        <label class="visually-hidden" for="aiQueryInput">Search with AI</label>
+        <input id="aiQueryInput" name="query" type="search" list="aiSearchSuggestions" placeholder="Try: Goa under ₹5,000 with a pool" required autocomplete="off">
+        <datalist id="aiSearchSuggestions"><option value="Beach stays in Goa under 5000"></option><option value="Family-friendly hill stay under 6000"></option><option value="Camping stays in Manali"></option><option value="Rooms in Delhi under 3000"></option></datalist>
+        <button type="submit" aria-label="Search with AI"><i class="fa-solid fa-sparkles" aria-hidden="true"></i></button>
+      </form>
+    </div>
+  </div>
+</nav>

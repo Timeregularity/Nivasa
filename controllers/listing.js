@@ -1,4 +1,5 @@
 const Listing=require("../DBModels/listing");
+const Booking=require("../DBModels/booking");
 module.exports.index =async (req,res)=>{
     const allListing = await Listing.find({});
     res.render("listings/index",{allListing});
@@ -27,7 +28,8 @@ module.exports.createNewListing=async (req,res)=>{
       return res.redirect("/listings");  
     }
     else{
-      res.render("listings/show",{listing});
+      const canReview = Boolean(req.user && await Booking.exists({ listing: listing._id, customer: req.user._id, status: "completed" }));
+      res.render("listings/show",{listing, canReview});
     }
     
  }

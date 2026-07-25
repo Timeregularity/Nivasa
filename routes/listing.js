@@ -5,7 +5,7 @@ const {listingSchema}=require("../validation.js");
 const Listing=require("../DBModels/listing.js");
 const ExpressError = require("../utils/expressErrors.js");
 const flash=require("connect-flash");
-const {isLoggedIn,isOwner,validateSchema}=require("../middlewares.js");
+const {isLoggedIn,isOwner,isOwnerAccount,validateSchema}=require("../middlewares.js");
 const listingControllers=require("../controllers/listing.js");
 const { showSearchResults } = require("../controllers/nlpSearch.js");
 // pull just the storage object from cloud configuration
@@ -18,7 +18,7 @@ const upload = multer({ storage });
 
 router.get("/", wrapAsync(listingControllers.index));
 
-router.get("/new", isLoggedIn, listingControllers.renderNewListing);
+router.get("/new", isLoggedIn, isOwnerAccount, listingControllers.renderNewListing);
 
 // search route
 router.get("/search", listingControllers.searchByCountry);
@@ -34,6 +34,7 @@ router.post(
   "/",
   upload.single("listing[img]"),
   isLoggedIn,
+  isOwnerAccount,
   validateSchema,
   wrapAsync(listingControllers.createNewListing)
 );

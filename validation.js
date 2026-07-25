@@ -20,4 +20,19 @@ module.exports.reviewSchema = Joi.object({
    
   }).required()
 });
+module.exports.bookingSchema = Joi.object({
+  booking: Joi.object({
+    checkIn: Joi.date().required(),
+    checkOut: Joi.date().greater(Joi.ref("checkIn")).required(),
+    guests: Joi.number().integer().min(1).max(20).required(),
+    notes: Joi.string().allow("").max(500).optional()
+  }).required()
+});
+module.exports.blockedDateSchema = Joi.object({
+  blockedDate: Joi.object({
+    startDate: Joi.date().required(),
+    endDate: Joi.date().greater(Joi.ref("startDate")).required(),
+    note: Joi.string().allow("").max(300).optional()
+  }).required()
+});
 
