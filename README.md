@@ -43,10 +43,33 @@
 
 - Customers can submit booking requests with check-in/check-out dates, guest count, and optional notes.
 - Live availability checks and automatic stay-cost calculation in the booking interface.
-- Server-side prevention of overlapping pending or confirmed bookings and blocked date ranges.
+- Atomic per-night lease locks prevent concurrent requests, owner blocks, or multiple server instances from double-booking the same listing dates.
+- Pending requests receive a 30-minute lease; expired requests automatically release their dates for other customers.
+- Confirming a request promotes its temporary lease to a permanent reservation lock, while cancellation, rejection, and completion release it.
+- Booking lifecycle rules enforce valid `pending -> confirmed/cancelled -> completed` transitions and prevent completion before checkout.
 - Customer booking timeline with cancellation for pending and confirmed reservations.
 - Owner controls to accept, reject, complete, or cancel bookings and block dates for a listing.
-- Owner dashboard with listing count, pending and confirmed booking counts, booking revenue, blocked dates, and 30-day occupancy estimate.
+- Owner dashboard with listing count, pending and confirmed booking counts, booking revenue, blocked dates, and occupancy calculated from confirmed nights inside the next 30 days.
+
+#### Lease-lock workflow
+
+```text
+Booking request
+      |
+      v
+Create one unique lock per occupied listing-night
+      |
+      +-- conflict --> return HTTP 409; no booking is created
+      |
+      v
+30-minute pending lease
+      |
+      +-- owner confirms --> permanent locks
+      +-- rejected/cancelled --> locks removed
+      +-- lease expires --> booking marked expired and locks removed
+```
+
+The `AvailabilityLock` collection has a unique compound index on `{ listing, date }`. Because concurrency is resolved by MongoDB's unique index during insertion, two requests cannot successfully acquire the same listing-night even when they arrive simultaneously. A TTL index cleans up expired lock documents, while request-time cleanup avoids depending on the TTL monitor's timing.
 
 ### ⭐ Reviews & ratings
 
@@ -81,12 +104,22 @@ The application follows an MVC-oriented structure:
 
 ```text
 controllers/  Request handling and business logic
-DBModels/     Mongoose schemas for users, listings, bookings, reviews, and blocked dates
+DBModels/     Mongoose schemas for users, listings, bookings, reviews, blocked dates, and availability locks
 routes/       REST-style Express routes
 views/        Server-rendered EJS pages
 public/       Client-side JavaScript, styles, and static assets
+test/         Node.js tests for booking-lock date boundaries
+utils/leaseLock.js Atomic lease acquisition, promotion, and release
 middlewares.js Authentication, authorization, and request validation
 ```
+
+### Booking consistency model
+
+- Check-in is inclusive and checkout is exclusive, so adjacent stays do not conflict.
+- The server calculates prices and validates dates independently of the browser.
+- Each pending booking stores its `leaseId` and `leaseExpiresAt` timestamp.
+- Owner-blocked dates use permanent locks from the same availability collection.
+- Lock acquisition rolls back any partial insert if a conflicting night is encountered.
 
 ## 🚀 Local Setup
 
@@ -122,6 +155,16 @@ middlewares.js Authentication, authorization, and request validation
 
 5. Open `http://localhost:1000` in your browser.
 
+## Testing
+
+Run the built-in Node.js test suite:
+
+```bash
+npm test
+```
+
+The lease-lock tests cover per-night key generation and verify that back-to-back stays do not overlap. Live concurrency integration testing requires a configured MongoDB instance because the database's unique compound index supplies the final atomic guarantee.
+
 ## 💼 Resume Summary
 
-Built **Nivasa**, an AI-powered full-stack rental and travel-planning platform using Node.js, Express, MongoDB, EJS, Cloudinary, Passport.js, and Gemini AI. Delivered role-based property management, secure booking and availability workflows, owner analytics, verified post-stay reviews, natural-language property search, AI content generation, review summaries, similar-stay recommendations, and budget-aware trip planning.
+Built **Nivasa**, an AI-powered full-stack rental and travel-planning platform using Node.js, Express, MongoDB, EJS, Cloudinary, Passport.js, and Gemini AI. Delivered role-based property management, concurrency-safe booking through atomic per-night lease locks, expiring reservation holds, owner analytics, verified post-stay reviews, natural-language property search, AI content generation, review summaries, similar-stay recommendations, and budget-aware trip planning.
