@@ -37,7 +37,7 @@
 
       <% if (currentUser && currentUser.role !== 'owner' && listing.owner && listing.owner._id.toString() !== currentUser._id.toString()) { %>
       <section class="booking-panel" data-booking-panel data-listing-id="<%= listing._id %>" data-nightly-price="<%= listing.price %>">
-         <div><p class="eyebrow">BOOK THIS STAY</p><h3>Choose your dates.</h3><p>Send a request to the owner. Your total updates before you confirm.</p></div>
+         <div><p class="eyebrow">BOOK THIS STAY</p><h3>Choose your dates.</h3><p>Sending a request holds these dates for 30 minutes while the owner responds.</p></div>
          <form action="/bookings/listings/<%= listing._id %>" method="post" class="booking-form">
             <label>Check in<input type="date" name="booking[checkIn]" class="form-control" required></label>
             <label>Check out<input type="date" name="booking[checkOut]" class="form-control" required></label>

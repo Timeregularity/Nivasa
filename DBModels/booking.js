@@ -9,7 +9,9 @@ const bookingSchema = new Schema({
   checkOut: { type: Date, required: true },
   guests: { type: Number, required: true, min: 1, max: 20 },
   totalPrice: { type: Number, required: true, min: 0 },
-  status: { type: String, enum: ["pending", "confirmed", "cancelled", "completed"], default: "pending", index: true },
+  status: { type: String, enum: ["pending", "confirmed", "cancelled", "completed", "expired"], default: "pending", index: true },
+  leaseId: { type: String, default: null, index: true },
+  leaseExpiresAt: { type: Date, default: null },
   cancelledAt: { type: Date, default: null },
   notes: { type: String, trim: true, maxlength: 500, default: "" }
 }, { timestamps: true });
